@@ -20,15 +20,20 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
 
 include(Options)
 include(ProjectDefaults)
-include(Packages)
+# include(Packages)
+set(Boost_INCLUDE_DIRS $ENV{VCPKG_DIR}/installed/x64-windows/include)
+set(PYTHON_LIBRARIES C:/Python38/libs/python38.lib)
+link_directories(
+DEBUG $ENV{VCPKG_DIR}/installed/x64-windows/debug/lib
+OPTIMIZED $ENV{VCPKG_DIR}/installed/x64-windows/lib)
 
-# This has to be defined after Packages is included, because it relies on the
-# discovered path to the python executable.
-set(PXR_PYTHON_SHEBANG "${PYTHON_EXECUTABLE}" 
-    CACHE 
-    STRING
-    "Replacement path for Python #! line."
-)
+# # This has to be defined after Packages is included, because it relies on the
+# # discovered path to the python executable.
+# set(PXR_PYTHON_SHEBANG "${PYTHON_EXECUTABLE}" 
+#     CACHE 
+#     STRING
+#     "Replacement path for Python #! line."
+# )
 
 # CXXDefaults will set a variety of variables for the project.
 # Consume them here. This is an effort to keep the most common
@@ -36,28 +41,43 @@ set(PXR_PYTHON_SHEBANG "${PYTHON_EXECUTABLE}"
 include(CXXDefaults)
 add_definitions(${_PXR_CXX_DEFINITIONS})
 set(CMAKE_CXX_FLAGS "${_PXR_CXX_FLAGS} ${CMAKE_CXX_FLAGS}")
-
 include(Public)
 
 pxr_toplevel_prologue()
+pxr_core_prologue()
 
-add_subdirectory(pxr)
-add_subdirectory(extras)
+include_directories(
+    ${CMAKE_CURRENT_LIST_DIR}
+    ${CMAKE_BINARY_DIR}/include
+    )
 
-if (PXR_BUILD_PRMAN_PLUGIN)
-    set(prmanPluginPath "third_party/renderman-${RENDERMAN_VERSION_MAJOR}")
+subdirs(
+    pxr/base/arch
+    # pxr/base/tf
+    # pxr/base/gf
+    # pxr/base/js
+    # pxr/base/trace
+    # pxr/base/work
+    # pxr/base/plug
+    # pxr/base/vt
+)
+# add_subdirectory(pxr)
+# add_subdirectory(extras)
 
-    get_filename_component(prmanPluginAbsPath "${prmanPluginPath}" ABSOLUTE)
-    if (EXISTS "${prmanPluginAbsPath}")
-        add_subdirectory("${prmanPluginPath}")
-    else()
-        message(FATAL_ERROR "No RenderMan plugin available for "
-                "RenderMan ${RENDERMAN_VERSION_MAJOR}")
-    endif()
-endif()
+# if (PXR_BUILD_PRMAN_PLUGIN)
+#     set(prmanPluginPath "third_party/renderman-${RENDERMAN_VERSION_MAJOR}")
 
-if (PXR_BUILD_DOCUMENTATION)
-    pxr_build_documentation()
-endif()   
+#     get_filename_component(prmanPluginAbsPath "${prmanPluginPath}" ABSOLUTE)
+#     if (EXISTS "${prmanPluginAbsPath}")
+#         add_subdirectory("${prmanPluginPath}")
+#     else()
+#         message(FATAL_ERROR "No RenderMan plugin available for "
+#                 "RenderMan ${RENDERMAN_VERSION_MAJOR}")
+#     endif()
+# endif()
 
-pxr_toplevel_epilogue()
+# if (PXR_BUILD_DOCUMENTATION)
+#     pxr_build_documentation()
+# endif()   
+
+# pxr_toplevel_epilogue()
