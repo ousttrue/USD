@@ -65,7 +65,7 @@ subdirs(
     pxr/base/arch
     pxr/base/tf
     pxr/base/gf
-    # pxr/base/js
+    pxr/base/js
     # pxr/base/trace
     # pxr/base/work
     # pxr/base/plug
