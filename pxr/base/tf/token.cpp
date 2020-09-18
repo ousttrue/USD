@@ -38,7 +38,7 @@
 #include "pxr/base/arch/align.h"
 
 #include <tbb/spin_mutex.h>
-
+#include <algorithm>
 #include <string>
 #include <ostream>
 #include <vector>

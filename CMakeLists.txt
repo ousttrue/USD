@@ -27,7 +27,10 @@ include(Options)
 include(ProjectDefaults)
 # include(Packages)
 set(Boost_INCLUDE_DIRS $ENV{VCPKG_DIR}/installed/x64-windows/include)
-set(PYTHON_LIBRARIES C:/Python38/libs/python38.lib)
+set(PYTHON_LIBRARIES 
+    C:/Python38/libs/python38.lib
+    $ENV{VCPKG_DIR}/installed/x64-windows/lib/boost_python38-vc140-mt.lib
+    )
 link_directories(
 DEBUG $ENV{VCPKG_DIR}/installed/x64-windows/debug/lib
 OPTIMIZED $ENV{VCPKG_DIR}/installed/x64-windows/lib)
@@ -54,11 +57,13 @@ pxr_core_prologue()
 include_directories(
     ${CMAKE_CURRENT_LIST_DIR}
     ${CMAKE_BINARY_DIR}/include
+    ${Boost_INCLUDE_DIRS}
+    C:/Python38/include
     )
 
 subdirs(
     pxr/base/arch
-    # pxr/base/tf
+    pxr/base/tf
     # pxr/base/gf
     # pxr/base/js
     # pxr/base/trace
