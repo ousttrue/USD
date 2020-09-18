@@ -9,7 +9,7 @@ PRIVATE
 )
 target_compile_definitions(js
 PRIVATE
-    EXPORTS_JS
+    JS_EXPORTS
 )
 
 # set(PXR_PREFIX pxr/base)

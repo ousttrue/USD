@@ -70,6 +70,25 @@ subdirs(
     pxr/base/work
     pxr/base/plug
     pxr/base/vt
+    pxr/usd/ar
+    # pxr/usd/kind
+    # pxr/usd/sdf
+    # pxr/usd/ndr
+    # pxr/usd/sdr
+    # pxr/usd/pcp
+    # pxr/usd/usd
+    # pxr/usd/usdGeom
+    # pxr/usd/usdVol
+    # pxr/usd/usdLux
+    # pxr/usd/usdMedia
+    # pxr/usd/usdShade
+    # pxr/usd/usdRender
+    # pxr/usd/usdHydra
+    # pxr/usd/usdRi
+    # pxr/usd/usdSkel
+    # pxr/usd/usdUI
+    # pxr/usd/usdUtils
+    # pxr/usd/plugin
 )
 # add_subdirectory(pxr)
 # add_subdirectory(extras)
