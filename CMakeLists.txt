@@ -69,7 +69,7 @@ subdirs(
     pxr/base/trace
     pxr/base/work
     pxr/base/plug
-    # pxr/base/vt
+    pxr/base/vt
 )
 # add_subdirectory(pxr)
 # add_subdirectory(extras)
