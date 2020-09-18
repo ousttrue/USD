@@ -30,7 +30,7 @@
 #include "pxr/pxr.h"
 #include "pxr/base/gf/vec3d.h"
 #include "pxr/base/gf/api.h"
-
+#include <vector>
 #include <iosfwd>
 
 PXR_NAMESPACE_OPEN_SCOPE
