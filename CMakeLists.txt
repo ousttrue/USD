@@ -71,7 +71,7 @@ subdirs(
     pxr/base/plug
     pxr/base/vt
     pxr/usd/ar
-    # pxr/usd/kind
+    pxr/usd/kind
     # pxr/usd/sdf
     # pxr/usd/ndr
     # pxr/usd/sdr
