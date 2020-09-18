@@ -23,8 +23,8 @@
 //
 
 #include "pxr/base/trace/eventNode.h"
-
 #include "pxr/pxr.h"
+#include <algorithm>
 
 PXR_NAMESPACE_OPEN_SCOPE
 

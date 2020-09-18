@@ -1,282 +1,340 @@
-set(PXR_PREFIX pxr/base)
-set(PXR_PACKAGE trace)
+add_library(trace SHARED
+#     PUBLIC_CLASSES
+        aggregateTree.cpp
+        aggregateNode.cpp
+        category.cpp
+        collection.cpp
+        collectionNotice.cpp
+        collector.cpp
+        counterAccumulator.cpp
+        dataBuffer.cpp
+        dynamicKey.cpp
+        event.cpp
+        eventContainer.cpp
+        eventData.cpp
+        eventList.cpp
+        eventNode.cpp
+        eventTree.cpp
+        key.cpp
+        reporter.cpp
+        reporterBase.cpp
+        reporterDataSourceBase.cpp
+        reporterDataSourceCollection.cpp
+        reporterDataSourceCollector.cpp
+        serialization.cpp
+        staticKeyData.cpp
+        threads.cpp
 
-pxr_library(trace
-    LIBRARIES
-        arch
-        js
-        tf
-        ${Boost_PYTHON_LIBRARY}
-        ${TBB_tbb_LIBRARY}
+#     PRIVATE_CLASSES
+        aggregateTreeBuilder.cpp
+        eventTreeBuilder.cpp
+        jsonSerialization.cpp
 
-    INCLUDE_DIRS
-        ${Boost_INCLUDE_DIRS}
-        ${TBB_INCLUDE_DIRS}
-
-    PUBLIC_CLASSES
-        aggregateTree
-        aggregateNode
-        category
-        collection
-        collectionNotice
-        collector
-        counterAccumulator
-        dataBuffer
-        dynamicKey
-        event
-        eventContainer
-        eventData
-        eventList
-        eventNode
-        eventTree
-        key
-        reporter
-        reporterBase
-        reporterDataSourceBase
-        reporterDataSourceCollection
-        reporterDataSourceCollector
-        serialization
-        staticKeyData
-        threads
-
-    PRIVATE_CLASSES
-        aggregateTreeBuilder
-        eventTreeBuilder
-        jsonSerialization
-
-    PUBLIC_HEADERS
-        api.h
-        concurrentList.h
-        stringHash.h
-        trace.h
-
-    PYTHON_CPPFILES
+#     PYTHON_CPPFILES
         moduleDeps.cpp
 
-    PYMODULE_CPPFILES
+#     PYMODULE_CPPFILES
         module.cpp
         wrapAggregateNode.cpp
         wrapCollector.cpp
         wrapReporter.cpp
         wrapTestTrace.cpp
-
-    PYMODULE_FILES
-        __init__.py
-        __main__.py
 )
+target_compile_definitions(trace
+PRIVATE
+    TRACE_EXPORTS
+    NOMINMAX
+PUBLIC
+    # https://github.com/GPUOpen-LibrariesAndSDKs/RadeonProRenderUSD/issues/83
+    TBB_USE_DEBUG=0
+    )
+target_link_libraries(trace
+PRIVATE
+    ${PYTHON_LIBRARIES}
+    tf
+    js
+    arch
+    )
 
-pxr_build_test(testTraceCategory
-    LIBRARIES
-        trace
-    CPPFILES
-        testenv/testTraceCategory.cpp
-)
+# set(PXR_PREFIX pxr/base)
+# set(PXR_PACKAGE trace)
 
-pxr_build_test(testTraceData
-    LIBRARIES
-        trace
-    CPPFILES
-        testenv/testTraceData.cpp
-)
+# pxr_library(trace
+#     LIBRARIES
+#         arch
+#         js
+#         tf
+#         ${Boost_PYTHON_LIBRARY}
+#         ${TBB_tbb_LIBRARY}
 
-pxr_build_test(testTraceHash
-    LIBRARIES
-        trace
-    CPPFILES
-        testenv/testTraceHash.cpp
-)
+#     INCLUDE_DIRS
+#         ${Boost_INCLUDE_DIRS}
+#         ${TBB_INCLUDE_DIRS}
 
-pxr_build_test(testTraceMacros
-    LIBRARIES
-        trace
-    CPPFILES
-        testenv/testTraceMacros.cpp
-)
+#     PUBLIC_CLASSES
+#         aggregateTree
+#         aggregateNode
+#         category
+#         collection
+#         collectionNotice
+#         collector
+#         counterAccumulator
+#         dataBuffer
+#         dynamicKey
+#         event
+#         eventContainer
+#         eventData
+#         eventList
+#         eventNode
+#         eventTree
+#         key
+#         reporter
+#         reporterBase
+#         reporterDataSourceBase
+#         reporterDataSourceCollection
+#         reporterDataSourceCollector
+#         serialization
+#         staticKeyData
+#         threads
 
-pxr_build_test(testTraceOverhead
-    LIBRARIES
-        trace
-    CPPFILES
-        testenv/testTraceOverhead.cpp
-)
+#     PRIVATE_CLASSES
+#         aggregateTreeBuilder
+#         eventTreeBuilder
+#         jsonSerialization
 
-pxr_build_test(testTraceThreading
-    LIBRARIES
-        trace
-    CPPFILES
-        testenv/testTraceThreading.cpp
-)
+#     PUBLIC_HEADERS
+#         api.h
+#         concurrentList.h
+#         stringHash.h
+#         trace.h
 
-pxr_build_test(testTraceSerialization
-    LIBRARIES
-        trace
-    CPPFILES
-        testenv/testTraceSerialization.cpp
-)
+#     PYTHON_CPPFILES
+#         moduleDeps.cpp
 
-pxr_build_test(testTraceCounters
-    LIBRARIES
-        trace
-    CPPFILES
-        testenv/testTraceCounters.cpp
-)
+#     PYMODULE_CPPFILES
+#         module.cpp
+#         wrapAggregateNode.cpp
+#         wrapCollector.cpp
+#         wrapReporter.cpp
+#         wrapTestTrace.cpp
 
-pxr_build_test(testTraceMarkers
-    LIBRARIES
-        trace
-    CPPFILES
-        testenv/testTraceMarkers.cpp
-)
+#     PYMODULE_FILES
+#         __init__.py
+#         __main__.py
+# )
 
-pxr_build_test(testTraceReportPerf
-    LIBRARIES
-        trace
-    CPPFILES
-        testenv/testTraceReportPerf.cpp
-)
+# pxr_build_test(testTraceCategory
+#     LIBRARIES
+#         trace
+#     CPPFILES
+#         testenv/testTraceCategory.cpp
+# )
 
-pxr_build_test(testTraceEventContainer
-    LIBRARIES
-        trace
-    CPPFILES
-        testenv/testTraceEventContainer.cpp
-)
+# pxr_build_test(testTraceData
+#     LIBRARIES
+#         trace
+#     CPPFILES
+#         testenv/testTraceData.cpp
+# )
 
-pxr_test_scripts(
-    testenv/testTrace.py
-    testenv/testTraceRecursion.py
-    testenv/testTraceReports.py
-    testenv/testTraceReporter.py
-)
+# pxr_build_test(testTraceHash
+#     LIBRARIES
+#         trace
+#     CPPFILES
+#         testenv/testTraceHash.cpp
+# )
 
-pxr_install_test_dir(
-    SRC testenv/testTraceRecursion.testenv
-    DEST testTraceRecursion1
-)
+# pxr_build_test(testTraceMacros
+#     LIBRARIES
+#         trace
+#     CPPFILES
+#         testenv/testTraceMacros.cpp
+# )
 
-pxr_install_test_dir(
-    SRC testenv/testTraceRecursion.testenv
-    DEST testTraceRecursion2
-)
+# pxr_build_test(testTraceOverhead
+#     LIBRARIES
+#         trace
+#     CPPFILES
+#         testenv/testTraceOverhead.cpp
+# )
 
-pxr_install_test_dir(
-    SRC testenv/testTraceRecursion.testenv
-    DEST testTraceRecursion3
-)
+# pxr_build_test(testTraceThreading
+#     LIBRARIES
+#         trace
+#     CPPFILES
+#         testenv/testTraceThreading.cpp
+# )
 
-pxr_install_test_dir(
-    SRC testenv/testTraceRecursion.testenv
-    DEST testTraceRecursion4
-)
+# pxr_build_test(testTraceSerialization
+#     LIBRARIES
+#         trace
+#     CPPFILES
+#         testenv/testTraceSerialization.cpp
+# )
 
-pxr_install_test_dir(
-    SRC testenv/testTraceRecursion.testenv
-    DEST testTraceRecursion5
-)
+# pxr_build_test(testTraceCounters
+#     LIBRARIES
+#         trace
+#     CPPFILES
+#         testenv/testTraceCounters.cpp
+# )
 
-pxr_install_test_dir(
-    SRC testenv/testTraceRecursion.testenv
-    DEST testTraceRecursion6
-)
+# pxr_build_test(testTraceMarkers
+#     LIBRARIES
+#         trace
+#     CPPFILES
+#         testenv/testTraceMarkers.cpp
+# )
 
-pxr_install_test_dir(
-    SRC testenv/testTraceRecursion.testenv
-    DEST testTraceRecursion7
-)
+# pxr_build_test(testTraceReportPerf
+#     LIBRARIES
+#         trace
+#     CPPFILES
+#         testenv/testTraceReportPerf.cpp
+# )
 
-pxr_register_test(testTraceCategory
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceCategory"
-)
+# pxr_build_test(testTraceEventContainer
+#     LIBRARIES
+#         trace
+#     CPPFILES
+#         testenv/testTraceEventContainer.cpp
+# )
 
-pxr_register_test(testTraceData
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceData"
-)
+# pxr_test_scripts(
+#     testenv/testTrace.py
+#     testenv/testTraceRecursion.py
+#     testenv/testTraceReports.py
+#     testenv/testTraceReporter.py
+# )
 
-pxr_register_test(testTraceHash
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceHash"
-)
+# pxr_install_test_dir(
+#     SRC testenv/testTraceRecursion.testenv
+#     DEST testTraceRecursion1
+# )
 
-pxr_register_test(testTraceMacros
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceMacros"
-)
+# pxr_install_test_dir(
+#     SRC testenv/testTraceRecursion.testenv
+#     DEST testTraceRecursion2
+# )
 
-pxr_register_test(testTraceThreading
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceThreading"
-)
+# pxr_install_test_dir(
+#     SRC testenv/testTraceRecursion.testenv
+#     DEST testTraceRecursion3
+# )
 
-pxr_register_test(testTrace
-    PYTHON
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTrace"
-)
+# pxr_install_test_dir(
+#     SRC testenv/testTraceRecursion.testenv
+#     DEST testTraceRecursion4
+# )
 
-pxr_register_test(testTraceRecursion1
-    PYTHON
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceRecursion"
-    DIFF_COMPARE recursion_5begins.out
-)
+# pxr_install_test_dir(
+#     SRC testenv/testTraceRecursion.testenv
+#     DEST testTraceRecursion5
+# )
 
-pxr_register_test(testTraceRecursion2
-    PYTHON
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceRecursion"
-    DIFF_COMPARE recursion_typical.out
-)
+# pxr_install_test_dir(
+#     SRC testenv/testTraceRecursion.testenv
+#     DEST testTraceRecursion6
+# )
 
-pxr_register_test(testTraceRecursion3
-    PYTHON
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceRecursion"
-    DIFF_COMPARE recursion_newnode.out
-)
+# pxr_install_test_dir(
+#     SRC testenv/testTraceRecursion.testenv
+#     DEST testTraceRecursion7
+# )
 
-pxr_register_test(testTraceRecursion4
-    PYTHON
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceRecursion"
-    DIFF_COMPARE recursion_inner.out
-)
+# pxr_register_test(testTraceCategory
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceCategory"
+# )
 
-pxr_register_test(testTraceRecursion5
-    PYTHON
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceRecursion"
-    DIFF_COMPARE recursion_1817.out
-)
+# pxr_register_test(testTraceData
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceData"
+# )
 
-pxr_register_test(testTraceRecursion6
-    PYTHON
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceRecursion"
-    DIFF_COMPARE recursion_branch.out
-)
+# pxr_register_test(testTraceHash
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceHash"
+# )
 
-pxr_register_test(testTraceRecursion7
-    PYTHON
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceRecursion"
-    DIFF_COMPARE recursion_marker_merge.out
-)
+# pxr_register_test(testTraceMacros
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceMacros"
+# )
 
-pxr_register_test(testTraceReports
-    PYTHON
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceReports"
-)
+# pxr_register_test(testTraceThreading
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceThreading"
+# )
 
-pxr_register_test(testTraceReporter
-    PYTHON
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceReporter"
-)
+# pxr_register_test(testTrace
+#     PYTHON
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTrace"
+# )
 
-pxr_register_test(testTraceSerialization
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceSerialization"
-)
+# pxr_register_test(testTraceRecursion1
+#     PYTHON
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceRecursion"
+#     DIFF_COMPARE recursion_5begins.out
+# )
 
-pxr_register_test(testTraceCounters
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceCounters"
-)
+# pxr_register_test(testTraceRecursion2
+#     PYTHON
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceRecursion"
+#     DIFF_COMPARE recursion_typical.out
+# )
 
-pxr_register_test(testTraceMarkers
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceMarkers"
-)
+# pxr_register_test(testTraceRecursion3
+#     PYTHON
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceRecursion"
+#     DIFF_COMPARE recursion_newnode.out
+# )
 
-pxr_register_test(testTraceReportPerf
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceReportPerf"
-)    
+# pxr_register_test(testTraceRecursion4
+#     PYTHON
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceRecursion"
+#     DIFF_COMPARE recursion_inner.out
+# )
 
-pxr_register_test(testTraceEventContainer
-    COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceEventContainer"
-)
+# pxr_register_test(testTraceRecursion5
+#     PYTHON
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceRecursion"
+#     DIFF_COMPARE recursion_1817.out
+# )
+
+# pxr_register_test(testTraceRecursion6
+#     PYTHON
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceRecursion"
+#     DIFF_COMPARE recursion_branch.out
+# )
+
+# pxr_register_test(testTraceRecursion7
+#     PYTHON
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceRecursion"
+#     DIFF_COMPARE recursion_marker_merge.out
+# )
+
+# pxr_register_test(testTraceReports
+#     PYTHON
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceReports"
+# )
+
+# pxr_register_test(testTraceReporter
+#     PYTHON
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceReporter"
+# )
+
+# pxr_register_test(testTraceSerialization
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceSerialization"
+# )
+
+# pxr_register_test(testTraceCounters
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceCounters"
+# )
+
+# pxr_register_test(testTraceMarkers
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceMarkers"
+# )
+
+# pxr_register_test(testTraceReportPerf
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceReportPerf"
+# )    
+
+# pxr_register_test(testTraceEventContainer
+#     COMMAND "${CMAKE_INSTALL_PREFIX}/tests/testTraceEventContainer"
+# )
